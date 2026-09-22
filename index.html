@@ -13,7 +13,7 @@
             <span class="nav-title">SAFW AI</span>
         </div>
         <div class="nav-right">
-            <span class="icon">🔍</span>
+            <svg class="nav-icon" onclick="openSearch()" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             <img src="logo.jpg" alt="Avatar" class="avatar" onclick="toggleProfileMenu(event)">
             <span class="icon">☰</span>
         </div>
@@ -73,6 +73,30 @@
         </div>
     </main>
 
+    <footer class="footer">
+        <div class="footer-logo">
+            <img src="logo.jpg" alt="SAFW AI" class="footer-logo-img">
+            <span>SAFW AI</span>
+        </div>
+        <div class="footer-links">
+            <a href="log.html">更新日志</a>
+            <a href="pricing.html">价格</a>
+            <a href="#">服务协议</a>
+            <a href="#">隐私政策</a>
+        </div>
+        <div class="footer-copyright">
+            © 2026 SAFW AI. All rights reserved.
+        </div>
+    </footer>
+
+    <div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+        <div class="search-box" onclick="event.stopPropagation()">
+            <input type="text" placeholder="搜索接口..." id="searchInput" oninput="doSearch()">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

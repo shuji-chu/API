@@ -14,13 +14,11 @@
         </div>
         <div class="nav-right">
             <span class="icon">🔍</span>
-            <!-- 点击头像触发下拉菜单 -->
             <img src="logo.jpg" alt="Avatar" class="avatar" onclick="toggleProfileMenu(event)">
             <span class="icon">☰</span>
         </div>
     </nav>
 
-    <!-- 个人中心下拉菜单（毛玻璃质感） -->
     <div class="profile-menu" id="profileMenu">
         <div class="profile-header">
             <img src="logo.jpg" alt="Avatar" class="profile-avatar">
@@ -29,28 +27,18 @@
                 <div class="profile-status">已登录</div>
             </div>
         </div>
-        <a href="dashboard.html" class="profile-item">
-            <span>🖥️</span> 控制台
-        </a>
-        <a href="pricing.html" class="profile-item">
-            <span>💰</span> 价格
-        </a>
-        <div class="profile-item" onclick="toggleDarkMode()">
-            <span>🌙</span> 切换深色模式
-        </div>
-        <div class="profile-item" onclick="alert('你的ID: 10001')">
-            <span>📋</span> 复制我的 ID
-        </div>
+        <a href="dashboard.html" class="profile-item"><span>🖥️</span> 控制台</a>
+        <a href="pricing.html" class="profile-item"><span>💰</span> 价格</a>
+        <div class="profile-item" onclick="toggleDarkMode()"><span>🌙</span> 切换深色模式</div>
+        <div class="profile-item" onclick="copyMyId()"><span>📋</span> 复制我的 ID</div>
         <div class="profile-divider"></div>
-        <div class="profile-item logout" onclick="alert('需接入后端才能真退出')">
-            <span>🚪</span> 退出登录
-        </div>
+        <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
     </div>
 
     <div class="tabs">
-        <a href="index.html" class="tab active" style="text-decoration:none;">API 列表</a>
-        <a href="dashboard.html" class="tab" style="text-decoration:none;">控制台</a>
-        <a href="pricing.html" class="tab" style="text-decoration:none;">价格</a>
+        <a href="index.html" class="tab active">API 列表</a>
+        <a href="dashboard.html" class="tab">控制台</a>
+        <a href="pricing.html" class="tab">价格</a>
         <span class="tab">更新日志</span>
         <span class="tab">每日热搜</span>
     </div>
@@ -60,7 +48,6 @@
             <div class="card-label">API 分类</div>
             <h1 class="card-title">选择服务</h1>
             <p class="card-desc">我们提供高可用、低延迟的 API 接口服务。请选择下方的分类进入。</p>
-            
             <div class="category-grid">
                 <a href="category.html?type=sms" class="category-item">
                     <div class="category-icon">📱</div>
@@ -86,26 +73,6 @@
         </div>
     </main>
 
-    <script>
-        // 控制个人中心菜单的弹出/隐藏
-        function toggleProfileMenu(event) {
-            event.stopPropagation();
-            const menu = document.getElementById('profileMenu');
-            menu.classList.toggle('show');
-        }
-
-        // 点击页面其他地方关闭菜单
-        document.addEventListener('click', function() {
-            const menu = document.getElementById('profileMenu');
-            if (menu.classList.contains('show')) {
-                menu.classList.remove('show');
-            }
-        });
-
-        // 深色模式切换（基础版，后续可以扩展保存到本地）
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

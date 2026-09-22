@@ -3,57 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAFW AI</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f7f8fa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        .logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 24px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 24px;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 8px;
-        }
-        p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 32px;
-        }
-        .btn {
-            background: linear-gradient(135deg, #8a2be2, #4169e1);
-            color: white;
-            border: none;
-            padding: 12px 32px;
-            border-radius: 20px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn:active {
-            opacity: 0.8;
-        }
-    </style>
+    <title>AI 智能翻译 - API</title>
+    <!-- 引入外部样式 -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <img src="logo.jpg" alt="SAFW AI Logo" class="logo">
-    <h1>SAFW AI</h1>
-    <p>欢迎来到我的网页！</p>
-    <button class="btn" onclick="alert('网页功能准备中！')">点我试试</button>
+
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="logo.jpg" alt="Logo" class="nav-logo">
+            <span class="nav-title">SAFW AI</span>
+        </div>
+        <div class="nav-right">
+            <span class="icon">🔍</span>
+            <img src="logo.jpg" alt="Avatar" class="avatar">
+            <span class="icon">☰</span>
+        </div>
+    </nav>
+
+    <!-- 标签页 -->
+    <div class="tabs">
+        <span class="tab active">API 列表</span>
+        <span class="tab">控制台</span>
+        <span class="tab">价格</span>
+        <span class="tab">更新日志</span>
+        <span class="tab">每日热搜</span>
+    </div>
+
+    <!-- 主体内容卡片 -->
+    <main class="container">
+        <div class="card">
+            <div class="card-label">翻译</div>
+            <h1 class="card-title">AI 智能翻译</h1>
+            
+            <div class="card-stats">
+                <span>📈 305,374 次调用</span>
+                <span>📄 复制本页</span>
+                <span>🔢 4 积分/次</span>
+            </div>
+            
+            <p class="card-desc">
+                这是一个高质量的智能翻译服务，支持多种翻译风格和专业场景，适合对译文质量有更高要求的业务场景。
+            </p>
+            
+            <!-- 接口请求框 -->
+            <div class="endpoint-box">
+                <div class="endpoint-header">
+                    <span class="method">POST</span>
+                    <span class="domain">uapis.cn</span>
+                </div>
+                <div class="endpoint-path">/api/v1/ai/translate</div>
+                <button class="try-btn" id="tryBtn">▶ 试一试</button>
+            </div>
+
+            <!-- 功能概述 -->
+            <h3 class="section-title">功能概述</h3>
+            <ul class="feature-list">
+                <li>● <strong>单文本翻译：</strong>专注处理单条文本翻译，适合需要高质量译文的业务场景。</li>
+                <li>● <strong>多风格支持：</strong>提供多种翻译风格和专业术语库。</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- 引入外部脚本 -->
+    <script src="script.js"></script>
 </body>
 </html>

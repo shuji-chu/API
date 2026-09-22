@@ -33,6 +33,7 @@
 
 <script src="data.js"></script>
 <script src="data-draw.js"></script>
+<script src="data-price.js"></script>
 <script src="script.js"></script>
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -49,7 +50,6 @@ if (!api) {
 } else {
   document.title = api.name + ' - API 文档';
 
-  // 参数表格
   let paramsTable = '';
   if (api.params && api.params.length) {
     paramsTable = `
@@ -72,22 +72,21 @@ if (!api) {
     paramsTable = '<p class="card-desc" style="margin-bottom:0;">该接口无需请求参数，直接调用即可。</p>';
   }
 
-  // 价格显示
-  const priceText = api.price ? `$${api.price} / 次` : '按量计费';
+  const priceText = api.price !== undefined
+    ? (api.price === 0 ? '免费' : api.price + ' 积分 / 次')
+    : '按量计费';
 
   el.innerHTML = `
     <div class="card-label">接口文档</div>
     <h1 class="card-title">${api.name}</h1>
     <p class="card-desc">${api.desc}</p>
 
-    <!-- 调用价格 -->
     <div class="price-box">
       <div class="price-label">调用价格</div>
       <div class="price-value">${priceText}</div>
-      <div class="price-tip">按单次成功调用计费</div>
+      <div class="price-tip">1积分 = 0.05 美元</div>
     </div>
 
-    <!-- 如何调用 -->
     <h3 class="section-title">如何调用</h3>
     <div class="endpoint-box">
       <div class="endpoint-header">
@@ -97,18 +96,14 @@ if (!api) {
       <div class="endpoint-path">${api.endpoint}</div>
     </div>
 
-    <!-- 请求参数 -->
     ${paramsTable}
 
-    <!-- 请求示例 -->
     <h3 class="section-title" style="margin-top:24px;">请求示例</h3>
     <div class="code-block"><pre>${api.example || '暂无示例'}</pre></div>
 
-    <!-- 返回示例 -->
     <h3 class="section-title" style="margin-top:24px;">返回示例</h3>
     <div class="code-block"><pre>${api.response || '{\n  "code": 200,\n  "msg": "success",\n  "data": { ... }\n}'}</pre></div>
 
-    <!-- 试一试 -->
     <button class="try-btn" style="margin-top:24px;" onclick="openTest()">▶ 试一试</button>
   `;
 }

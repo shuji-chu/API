@@ -1,0 +1,120 @@
+/* 基础重置 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f7f8fa;
+    color: #333;
+    padding-bottom: 40px;
+}
+
+/* 顶部导航栏 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-left { display: flex; align-items: center; gap: 8px; }
+.nav-logo { width: 28px; height: 28px; border-radius: 6px; }
+.nav-title { font-weight: bold; font-size: 18px; color: #1a1a1a; }
+
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.icon { font-size: 18px; cursor: pointer; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; }
+
+/* 标签页 */
+.tabs {
+    display: flex;
+    background: #fff;
+    padding: 0 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 24px;
+}
+
+.tab {
+    padding: 12px 0;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+}
+
+.tab.active {
+    color: #2b6bff;
+    font-weight: 600;
+    border-bottom: 2px solid #2b6bff;
+}
+
+/* 卡片主体 */
+.container {
+    padding: 16px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.card-label { font-size: 12px; color: #999; margin-bottom: 6px; }
+.card-title { font-size: 22px; font-weight: bold; color: #1a1a1a; margin-bottom: 12px; }
+
+.card-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 16px;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+/* 接口请求框 */
+.endpoint-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.endpoint-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.method { color: #2b6bff; font-weight: bold; font-size: 14px; }
+.domain { background: #eef2ff; color: #2b6bff; font-size: 12px; padding: 2px 8px; border-radius: 4px; }
+.endpoint-path { font-family: monospace; font-size: 14px; color: #333; margin-bottom: 16px; word-break: break-all; }
+
+.try-btn {
+    width: 100%;
+    background: #2b6bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.try-btn:active { background: #1a55d6; }
+
+/* 功能概述 */
+.section-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+.feature-list { list-style: none; }
+.feature-list li { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 8px; }
+.feature-list li strong { color: #333; }

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 列表 - SAFW AI</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <img src="logo.jpg" alt="Logo" class="nav-logo">
+                <span class="nav-title">SAFW AI</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <span class="icon">🔍</span>
+            <img src="logo.jpg" alt="Avatar" class="avatar">
+            <span class="icon">☰</span>
+        </div>
+    </nav>
+
+    <div class="tabs">
+        <span class="tab active">API 列表</span>
+        <span class="tab">控制台</span>
+        <span class="tab">价格</span>
+        <span class="tab">更新日志</span>
+        <span class="tab">每日热搜</span>
+    </div>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-label" id="category-label"></div>
+            <h1 class="card-title" id="category-title"></h1>
+            <p class="card-desc" id="category-desc"></p>
+            <div class="api-list" id="api-list"></div>
+            <a href="index.html" class="back-link">← 返回分类</a>
+        </div>
+    </main>
+
+    <script>
+        const categoryInfo = {
+            sms:     { name: '接码类', desc: '短信验证码接收服务' },
+            query:   { name: '查询类', desc: '各类信息查询服务' },
+            service: { name: '服务类', desc: '实用工具服务' },
+            free:    { name: '免费类', desc: '免费接口集合' }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get('type') || 'sms';
+        const info = categoryInfo[type] || categoryInfo.sms;
+        const apis = allApis[type] || [];
+
+        document.title = info.name + ' - SAFW AI';
+        document.getElementById('category-label').textContent = info.name;
+        document.getElementById('category-title').textContent = info.name + ' API';
+        document.getElementById('category-desc').textContent = info.desc;
+
+        const listEl = document.getElementById('api-list');
+        if (apis.length === 0) {
+            listEl.innerHTML = '<p style="color:#64748b; text-align:center; padding:20px;">暂无接口</p>';
+        } else {
+            // 注意这里：点击后跳转到 doc.html，并带上接口的 id
+            listEl.innerHTML = apis.map(api => `
+                <a href="doc.html?id=${api.id}" class="api-item" style="text-decoration:none; display:block;">
+                    <div class="api-item-name">${api.name}</div>
+                    <div class="api-item-desc">${api.desc}</div>
+                    <div class="api-item-path">${api.endpoint}</div>
+                </a>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

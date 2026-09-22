@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>API 文档 - SAFW AI</title>
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="logo.jpg" type="image/jpeg">
 </head>
 <body>
 <nav class="navbar">
@@ -33,7 +34,6 @@
 
 <script src="data.js"></script>
 <script src="data-draw.js"></script>
-<script src="data-price.js"></script>
 <script src="script.js"></script>
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -50,7 +50,7 @@ if (!api) {
 } else {
   document.title = api.name + ' - API 文档';
 
-  // ---- 请求参数表格 ----
+  // 请求参数表格
   let reqTable = '';
   if (api.params && api.params.length) {
     reqTable = `
@@ -73,7 +73,7 @@ if (!api) {
     reqTable = '<p class="card-desc" style="margin-bottom:0;">该接口无需请求参数，直接调用即可。</p>';
   }
 
-  // ---- 响应参数表格 ----
+  // 响应参数表格
   let resTable = '';
   if (api.responseParams && api.responseParams.length) {
     resTable = `
@@ -93,7 +93,6 @@ if (!api) {
       </div>`;
   }
 
-  // 价格（直接显示 USDT）
   const priceText = api.price !== undefined
     ? (api.price === 0 ? '免费' : api.price + ' USDT / 次')
     : '按量计费';

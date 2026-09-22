@@ -114,8 +114,8 @@ const allApis = {
     { id:'uapi_112', name:'Markdown转HTML', desc:'Markdown转HTML', method:'POST', endpoint:'/api/uapi/markdown2html', params:[], example:'{}' },
     { id:'uapi_113', name:'Markdown转PDF', desc:'Markdown转PDF', method:'POST', endpoint:'/api/uapi/markdown2pdf', params:[], example:'{}' },
     { id:'uapi_114', name:'Minecraft最新版本', desc:'MC最新版本', method:'GET', endpoint:'/api/uapi/mc/version', params:[], example:'{}' },
-    { id:'uapi_115', name:'SVG转图片', desc:'SVG转图片', method:'POST', endpoint:'/api/uapi/svg2img', params:[], example:'{}' }
-    { id:'nz_8', name:'手机号二要素认证'}, desc:'运营商姓名+手机号校验', method:'POST', endpoint:'/api/nz/8', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'phone',type:'string',required:true,desc:'手机号'}], example:'{"name":"张三","phone":"13800138000"}' },
+    { id:'uapi_115', name:'SVG转图片', desc:'SVG转图片', method:'POST', endpoint:'/api/uapi/svg2img', params:[], example:'{}' },
+    { id:'nz_8', name:'手机号二要素认证', desc:'运营商姓名+手机号校验', method:'POST', endpoint:'/api/nz/8', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'phone',type:'string',required:true,desc:'手机号'}], example:'{"name":"张三","phone":"13800138000"}' },
     { id:'nz_20', name:'全网手机号三要素验证', desc:'手机号+姓名+证件号实名验证', method:'POST', endpoint:'/api/nz/20', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'phone',type:'string',required:true,desc:'手机号'},{name:'idcard',type:'string',required:true,desc:'身份证号'}], example:'{"name":"张三","phone":"13800138000","idcard":"110101199001011234"}' },
     { id:'nz_10', name:'IP归属地位置查询', desc:'IP定位解析', method:'POST', endpoint:'/api/nz/10', params:[{name:'ip',type:'string',required:true,desc:'IP地址'}], example:'{"ip":"27.38.248.215"}' },
     { id:'nz_14', name:'身份证号码归属地查询', desc:'身份证归属地查询', method:'POST', endpoint:'/api/nz/14', params:[{name:'idcard',type:'string',required:true,desc:'身份证号'}], example:'{"idcard":"110101199001011234"}' },

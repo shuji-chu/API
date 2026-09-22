@@ -44,6 +44,9 @@
 </div>
 </main>
 
+<script src="data.js"></script>
+<script src="data-draw.js"></script>
+<script src="data-price.js"></script>
 <script>
 const categoryInfo = {
   query:   { name: '查询类', desc: '各类信息查询服务' },
@@ -64,17 +67,22 @@ const listEl = document.getElementById('api-list');
 if (apis.length === 0) {
   listEl.innerHTML = '<p style="color:#64748b; text-align:center; padding:20px;">暂无接口</p>';
 } else {
-  listEl.innerHTML = apis.map(api => `
-    <a href="doc.html?id=${api.id}" class="api-item" style="text-decoration:none; display:block;">
-      <div class="api-item-name">${api.name}</div>
-      <div class="api-item-desc">${api.desc}</div>
-      <div class="api-item-path">${api.endpoint}</div>
-    </a>
-  `).join('');
+  listEl.innerHTML = apis.map(api => {
+    const priceText = api.price !== undefined
+      ? (api.price === 0 ? '免费' : api.price + ' 积分/次')
+      : '按量计费';
+    return `
+      <a href="doc.html?id=${api.id}" class="api-item" style="text-decoration:none; display:block;">
+        <div class="api-item-name">${api.name}</div>
+        <div class="api-item-desc">${api.desc}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="api-item-path">${api.endpoint}</div>
+          <div style="font-size:12px; color:#2563eb; font-weight:700;">${priceText}</div>
+        </div>
+      </a>`;
+  }).join('');
 }
 </script>
-<script src="data.js"></script>
-<script src="data-draw.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

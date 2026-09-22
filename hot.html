@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日热搜 - SAFW AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <img src="logo.jpg" alt="Logo" class="nav-logo">
+                <span class="nav-title">SAFW AI</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <span class="icon">🔍</span>
+            <img src="logo.jpg" alt="Avatar" class="avatar" onclick="toggleProfileMenu(event)">
+            <span class="icon">☰</span>
+        </div>
+    </nav>
+
+    <div class="profile-menu" id="profileMenu">
+        <div class="profile-header">
+            <img src="logo.jpg" alt="Avatar" class="profile-avatar">
+            <div>
+                <div class="profile-name">shujichu</div>
+                <div class="profile-status">已登录</div>
+            </div>
+        </div>
+        <a href="dashboard.html" class="profile-item"><span>🖥️</span> 控制台</a>
+        <a href="pricing.html" class="profile-item"><span>💰</span> 价格</a>
+        <div class="profile-item" onclick="toggleDarkMode()"><span>🌙</span> 切换深色模式</div>
+        <div class="profile-item" onclick="copyMyId()"><span>📋</span> 复制我的 ID</div>
+        <div class="profile-divider"></div>
+        <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
+    </div>
+
+    <div class="tabs">
+        <a href="index.html" class="tab">API 列表</a>
+        <a href="dashboard.html" class="tab">控制台</a>
+        <a href="pricing.html" class="tab">价格</a>
+        <a href="log.html" class="tab">更新日志</a>
+        <a href="hot.html" class="tab active">每日热搜</a>
+    </div>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-label">热点榜单</div>
+            <h1 class="card-title">每日热搜</h1>
+            <p class="card-desc">平台热门接口与最新动态，每小时更新。</p>
+
+            <div class="hot-list">
+                <a href="category.html?type=query" class="hot-item">
+                    <div class="hot-rank top-1">1</div>
+                    <div class="hot-info">
+                        <div class="hot-title">AI 智能翻译接口上线</div>
+                        <div class="hot-meta">查询类 · 热度 99.8万</div>
+                    </div>
+                </a>
+                <a href="category.html?type=sms" class="hot-item">
+                    <div class="hot-rank top-2">2</div>
+                    <div class="hot-info">
+                        <div class="hot-title">接码类接口维护完成</div>
+                        <div class="hot-meta">接码类 · 热度 85.2万</div>
+                    </div>
+                </a>
+                <a href="category.html?type=service" class="hot-item">
+                    <div class="hot-rank top-3">3</div>
+                    <div class="hot-info">
+                        <div class="hot-title">短链接生成服务稳定运行</div>
+                        <div class="hot-meta">服务类 · 热度 72.1万</div>
+                    </div>
+                </a>
+                <a href="pricing.html" class="hot-item">
+                    <div class="hot-rank">4</div>
+                    <div class="hot-info">
+                        <div class="hot-title">USDT 充值通道即将开放</div>
+                        <div class="hot-meta">平台动态 · 热度 50.5万</div>
+                    </div>
+                </a>
+                <a href="doc.html?id=free_1" class="hot-item">
+                    <div class="hot-rank">5</div>
+                    <div class="hot-info">
+                        <div class="hot-title">免费翻译接口文档更新</div>
+                        <div class="hot-meta">免费类 · 热度 33.0万</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

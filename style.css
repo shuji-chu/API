@@ -88,4 +88,34 @@ body.dark-mode .test-dialog{background:#1e293b}
 body.dark-mode .test-input-group textarea{background:#0f172a;border-color:#334155;color:#e2e8f0}
 body.dark-mode .search-box{background:#1e293b}
 body.dark-mode .search-box input{background:#1e293b;color:#e2e8f0;border-bottom-color:#334155}
-body.dark-mode .search-item{color:#e2e8f0;border-bottom-color:#334155}
+body.dark-mode .search-item{color:#e2e8f0;border-bottom-color:#334155}/* 价格框 */
+.price-box {
+    background: linear-gradient(135deg, #eff6ff, #f8fafc);
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.price-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+}
+.price-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #2563eb;
+}
+.price-tip {
+    font-size: 11px;
+    color: #94a3b8;
+}
+body.dark-mode .price-box {
+    background: #1e293b;
+    border-color: #334155;
+}
+body.dark-mode .price-label { color: #94a3b8; }
+body.dark-mode .price-value { color: #60a5fa; }

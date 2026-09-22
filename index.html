@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAFW AI - API 平台</title>
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="logo.jpg" type="image/jpeg">
 </head>
 <body>
 <nav class="navbar">
@@ -58,7 +59,6 @@
 
 <script src="data.js"></script>
 <script src="data-draw.js"></script>
-<script src="data-price.js"></script>
 <script src="script.js"></script>
 <script>
 const grid = document.getElementById('apiGrid');
@@ -66,11 +66,17 @@ let cards = '', count = 0;
 for (const cat in allApis) {
   allApis[cat].forEach(api => {
     count++;
+    const priceText = api.price !== undefined
+      ? (api.price === 0 ? '免费' : api.price + ' USDT/次')
+      : '按量计费';
     cards += `<a href="doc.html?id=${api.id}" class="api-card">
       <div class="api-card-tag">${cat}</div>
       <div class="api-card-name">${api.name}</div>
       <div class="api-card-desc">${api.desc}</div>
-      <div class="api-card-path">${api.endpoint}</div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="api-card-path">${api.endpoint}</div>
+        <div style="font-size:12px; color:#2563eb; font-weight:700;">${priceText}</div>
+      </div>
     </a>`;
   });
 }

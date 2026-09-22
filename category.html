@@ -1,89 +1,80 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API 列表 - SAFW AI</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="data.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API 列表 - SAFW AI</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
-                <img src="logo.jpg" alt="Logo" class="nav-logo">
-                <span class="nav-title">SAFW AI</span>
-            </a>
-        </div>
-        <div class="nav-right">
-            <span class="icon">🔍</span>
-            <img src="logo.jpg" alt="Avatar" class="avatar" onclick="toggleProfileMenu(event)">
-            <span class="icon">☰</span>
-        </div>
-    </nav>
+<nav class="navbar">
+<div class="nav-left"><a href="index.html" class="nav-brand"><img src="logo.jpg" class="nav-logo"><span class="nav-title">SAFW AI</span></a></div>
+<div class="nav-right">
+<svg class="nav-icon" onclick="openSearch()" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<img src="logo.jpg" class="avatar" onclick="toggleProfileMenu(event)">
+<span class="icon">☰</span>
+</div>
+</nav>
 
-    <div class="profile-menu" id="profileMenu">
-        <div class="profile-header">
-            <img src="logo.jpg" alt="Avatar" class="profile-avatar">
-            <div>
-                <div class="profile-name">shujichu</div>
-                <div class="profile-status">已登录</div>
-            </div>
-        </div>
-        <a href="dashboard.html" class="profile-item"><span>🖥️</span> 控制台</a>
-        <a href="pricing.html" class="profile-item"><span>💰</span> 价格</a>
-        <div class="profile-item" onclick="toggleDarkMode()"><span>🌙</span> 切换深色模式</div>
-        <div class="profile-item" onclick="copyMyId()"><span>📋</span> 复制我的 ID</div>
-        <div class="profile-divider"></div>
-        <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
-    </div>
+<div class="profile-menu" id="profileMenu">
+<div class="profile-header"><img src="logo.jpg" class="profile-avatar"><div><div class="profile-name">shujichu</div><div class="profile-status">已登录</div></div></div>
+<a href="dashboard.html" class="profile-item">🖥️ 控制台</a>
+<a href="pricing.html" class="profile-item">💰 价格</a>
+<div class="profile-item" onclick="toggleDarkMode()">🌙 切换深色模式</div>
+<div class="profile-item" onclick="copyMyId()">📋 复制我的 ID</div>
+<div class="profile-divider"></div>
+<div class="profile-item logout" onclick="logout()">🚪 退出登录</div>
+</div>
 
-    <div class="tabs">
-        <a href="index.html" class="tab active">API 列表</a>
-        <a href="dashboard.html" class="tab">控制台</a>
-        <a href="pricing.html" class="tab">价格</a>
-        <a href="log.html" class="tab">更新日志</a>
-        <a href="hot.html" class="tab">每日热搜</a>
-    </div>
+<div class="tabs">
+<a href="index.html" class="tab">API 列表</a>
+<a href="dashboard.html" class="tab">控制台</a>
+<a href="pricing.html" class="tab">价格</a>
+<a href="log.html" class="tab">更新日志</a>
+<a href="hot.html" class="tab">每日热搜</a>
+</div>
 
-    <main class="container">
-        <div class="card">
-            <div class="card-label" id="category-label"></div>
-            <h1 class="card-title" id="category-title"></h1>
-            <p class="card-desc" id="category-desc"></p>
-            <div class="api-list" id="api-list"></div>
-            <a href="index.html" class="back-link">← 返回分类</a>
-        </div>
-    </main>
+<main class="container">
+<div class="card">
+<div class="card-label" id="category-label"></div>
+<h1 class="card-title" id="category-title"></h1>
+<p class="card-desc" id="category-desc"></p>
+<div class="api-list" id="api-list"></div>
+<a href="index.html" class="back-link">← 返回分类</a>
+</div>
+</main>
 
-    <script>
-        const categoryInfo = {
-            sms:     { name: '接码类', desc: '短信验证码接收服务' },
-            query:   { name: '查询类', desc: '各类信息查询服务' },
-            service: { name: '服务类', desc: '实用工具服务' },
-            free:    { name: '免费类', desc: '免费接口集合' }
-        };
-        const params = new URLSearchParams(window.location.search);
-        const type = params.get('type') || 'sms';
-        const info = categoryInfo[type] || categoryInfo.sms;
-        const apis = allApis[type] || [];
-        document.title = info.name + ' - SAFW AI';
-        document.getElementById('category-label').textContent = info.name;
-        document.getElementById('category-title').textContent = info.name + ' API';
-        document.getElementById('category-desc').textContent = info.desc;
-        const listEl = document.getElementById('api-list');
-        if (apis.length === 0) {
-            listEl.innerHTML = '<p style="color:#64748b; text-align:center; padding:20px;">暂无接口</p>';
-        } else {
-            listEl.innerHTML = apis.map(api => `
-                <a href="doc.html?id=${api.id}" class="api-item" style="text-decoration:none; display:block;">
-                    <div class="api-item-name">${api.name}</div>
-                    <div class="api-item-desc">${api.desc}</div>
-                    <div class="api-item-path">${api.endpoint}</div>
-                </a>
-            `).join('');
-        }
-    </script>
-    <script src="script.js"></script>
+<script>
+const categoryInfo = {
+  query:   { name: '查询类', desc: '各类信息查询服务' },
+  service: { name: '服务类', desc: '实用工具服务' },
+  draw:    { name: '绘画类', desc: 'AI绘画与视频生成' },
+  sms:     { name: '接码类', desc: '短信验证码接收' },
+  free:    { name: '免费类', desc: '免费接口集合' }
+};
+const params = new URLSearchParams(window.location.search);
+const type = params.get('type') || 'query';
+const info = categoryInfo[type] || categoryInfo.query;
+const apis = allApis[type] || [];
+document.title = info.name + ' - SAFW AI';
+document.getElementById('category-label').textContent = info.name;
+document.getElementById('category-title').textContent = info.name + ' API';
+document.getElementById('category-desc').textContent = info.desc;
+const listEl = document.getElementById('api-list');
+if (apis.length === 0) {
+  listEl.innerHTML = '<p style="color:#64748b; text-align:center; padding:20px;">暂无接口</p>';
+} else {
+  listEl.innerHTML = apis.map(api => `
+    <a href="doc.html?id=${api.id}" class="api-item" style="text-decoration:none; display:block;">
+      <div class="api-item-name">${api.name}</div>
+      <div class="api-item-desc">${api.desc}</div>
+      <div class="api-item-path">${api.endpoint}</div>
+    </a>
+  `).join('');
+}
+</script>
+<script src="data.js"></script>
+<script src="data-draw.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

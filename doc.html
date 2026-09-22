@@ -38,6 +38,14 @@
         <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
     </div>
 
+    <div class="tabs">
+        <a href="index.html" class="tab">API 列表</a>
+        <a href="dashboard.html" class="tab">控制台</a>
+        <a href="pricing.html" class="tab">价格</a>
+        <a href="log.html" class="tab">更新日志</a>
+        <a href="hot.html" class="tab">每日热搜</a>
+    </div>
+
     <main class="container" style="padding-top: 10px;">
         <div class="card" id="doc-content"></div>
         <a href="javascript:history.back()" class="back-link" style="margin-top: 20px;">← 返回列表</a>
@@ -51,7 +59,9 @@
             const found = allApis[category].find(api => api.id === id);
             if (found) { targetApi = found; break; }
         }
+
         const contentEl = document.getElementById('doc-content');
+
         if (!targetApi) {
             contentEl.innerHTML = '<h1 class="card-title">接口不存在</h1><p class="card-desc">请返回列表重新选择。</p>';
         } else {
@@ -106,7 +116,7 @@
                     </div>
                     <div class="test-dialog-body">
                         <div class="test-input-group">
-                            <label>请求参数</label>
+                            <label>请求参数（JSON 格式）</label>
                             <textarea id="testInput">${targetApi.example || '{}'}</textarea>
                         </div>
                         <button class="try-btn" onclick="sendTestRequest()">发送请求</button>
@@ -121,12 +131,38 @@
             requestAnimationFrame(() => dialog.classList.add('show'));
         }
 
-        function sendTestRequest() {
+        async function sendTestRequest() {
             const resultBox = document.getElementById('testResult');
             const resultContent = document.getElementById('testResultContent');
-            resultContent.textContent = '⏳ 正在请求后端接口...\n\n（需接入服务器才能真正调用）';
+            const rawInput = document.getElementById('testInput').value;
             resultBox.style.display = 'block';
-            showToast('准备调用后端接口', 'info');
+            resultContent.textContent = '⏳ 正在请求...';
+
+            try {
+                const input = JSON.parse(rawInput);
+                // 自动把接口路径 /api/v1/xxx 转成 /api/uapi/xxx
+                const apiPath = targetApi.endpoint.replace('/api/v1', '');
+                let url = `/api/uapi${apiPath}`;
+
+                let resp;
+                if (targetApi.method === 'GET') {
+                    const qs = new URLSearchParams(input).toString();
+                    resp = await fetch(`${url}?${qs}`);
+                } else {
+                    resp = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(input)
+                    });
+                }
+
+                const data = await resp.json();
+                resultContent.textContent = JSON.stringify(data, null, 2);
+                showToast('调用成功', 'success');
+            } catch (e) {
+                resultContent.textContent = '❌ 出错：' + e.message;
+                showToast('请求失败', 'error');
+            }
         }
     </script>
     <script src="script.js"></script>

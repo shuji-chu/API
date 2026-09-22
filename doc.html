@@ -1,170 +1,98 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API 文档 - SAFW AI</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="data.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API 文档 - SAFW AI</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
-                <img src="logo.jpg" alt="Logo" class="nav-logo">
-                <span class="nav-title">SAFW AI</span>
-            </a>
-        </div>
-        <div class="nav-right">
-            <span class="icon">🔍</span>
-            <img src="logo.jpg" alt="Avatar" class="avatar" onclick="toggleProfileMenu(event)">
-            <span class="icon">☰</span>
-        </div>
-    </nav>
-
-    <div class="profile-menu" id="profileMenu">
-        <div class="profile-header">
-            <img src="logo.jpg" alt="Avatar" class="profile-avatar">
-            <div>
-                <div class="profile-name">shujichu</div>
-                <div class="profile-status">已登录</div>
-            </div>
-        </div>
-        <a href="dashboard.html" class="profile-item"><span>🖥️</span> 控制台</a>
-        <a href="pricing.html" class="profile-item"><span>💰</span> 价格</a>
-        <div class="profile-item" onclick="toggleDarkMode()"><span>🌙</span> 切换深色模式</div>
-        <div class="profile-item" onclick="copyMyId()"><span>📋</span> 复制我的 ID</div>
-        <div class="profile-divider"></div>
-        <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
+<nav class="navbar">
+<div class="nav-left"><a href="index.html" class="nav-brand"><img src="logo.jpg" class="nav-logo"><span class="nav-title">SAFW AI</span></a></div>
+<div class="nav-right">
+<svg class="nav-icon" onclick="openSearch()" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<img src="logo.jpg" class="avatar" onclick="toggleProfileMenu(event)">
+<span class="icon">☰</span>
+</div>
+</nav>
+<div class="profile-menu" id="profileMenu">
+<div class="profile-header"><img src="logo.jpg" class="profile-avatar"><div><div class="profile-name">shujichu</div><div class="profile-status">已登录</div></div></div>
+<a href="dashboard.html" class="profile-item">🖥️ 控制台</a>
+<a href="pricing.html" class="profile-item">💰 价格</a>
+<div class="profile-item" onclick="toggleDarkMode()">🌙 切换深色模式</div>
+<div class="profile-item" onclick="copyMyId()">📋 复制我的 ID</div>
+<div class="profile-divider"></div>
+<div class="profile-item logout" onclick="logout()">🚪 退出登录</div>
+</div>
+<div class="tabs">
+<a href="index.html" class="tab">API 列表</a>
+<a href="dashboard.html" class="tab">控制台</a>
+<a href="pricing.html" class="tab">价格</a>
+<a href="log.html" class="tab">更新日志</a>
+<a href="hot.html" class="tab">每日热搜</a>
+</div>
+<main class="container" style="padding-top:10px;">
+<div class="card" id="docContent"></div>
+<a href="index.html" class="back-link" style="margin-top:20px;">← 返回列表</a>
+</main>
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const id = params.get('id');
+let api = null;
+for (const cat in allApis) { const f = allApis[cat].find(a => a.id === id); if (f) { api = f; break; } }
+const el = document.getElementById('docContent');
+if (!api) {
+  el.innerHTML = '<h1 class="card-title">接口不存在</h1>';
+} else {
+  document.title = api.name + ' - API 文档';
+  let table = '';
+  if (api.params && api.params.length) {
+    table = `<h3 class="section-title">请求参数</h3><div class="table-wrap"><table class="param-table"><thead><tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr></thead><tbody>${api.params.map(p=>`<tr><td><code>${p.name}</code></td><td>${p.type}</td><td>${p.required?'<span class="required">是</span>':'否'}</td><td>${p.desc}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  el.innerHTML = `
+    <div class="card-label">接口文档</div>
+    <h1 class="card-title">${api.name}</h1>
+    <p class="card-desc">${api.desc}</p>
+    <div class="endpoint-box">
+      <div class="endpoint-header"><span class="method">${api.method}</span><span class="domain">接口地址</span></div>
+      <div class="endpoint-path">${api.endpoint}</div>
     </div>
-
-    <div class="tabs">
-        <a href="index.html" class="tab">API 列表</a>
-        <a href="dashboard.html" class="tab">控制台</a>
-        <a href="pricing.html" class="tab">价格</a>
-        <a href="log.html" class="tab">更新日志</a>
-        <a href="hot.html" class="tab">每日热搜</a>
-    </div>
-
-    <main class="container" style="padding-top: 10px;">
-        <div class="card" id="doc-content"></div>
-        <a href="javascript:history.back()" class="back-link" style="margin-top: 20px;">← 返回列表</a>
-    </main>
-
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        let targetApi = null;
-        for (const category in allApis) {
-            const found = allApis[category].find(api => api.id === id);
-            if (found) { targetApi = found; break; }
-        }
-
-        const contentEl = document.getElementById('doc-content');
-
-        if (!targetApi) {
-            contentEl.innerHTML = '<h1 class="card-title">接口不存在</h1><p class="card-desc">请返回列表重新选择。</p>';
-        } else {
-            document.title = targetApi.name + ' - API 文档';
-            let paramsTable = '';
-            if (targetApi.params && targetApi.params.length > 0) {
-                paramsTable = `
-                    <h3 class="section-title">请求参数</h3>
-                    <div class="table-wrap">
-                        <table class="param-table">
-                            <thead><tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
-                            <tbody>
-                                ${targetApi.params.map(p => `
-                                    <tr>
-                                        <td><code>${p.name}</code></td>
-                                        <td>${p.type}</td>
-                                        <td>${p.required ? '<span class="required">是</span>' : '否'}</td>
-                                        <td>${p.desc}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            }
-            contentEl.innerHTML = `
-                <div class="card-label">接口文档</div>
-                <h1 class="card-title">${targetApi.name}</h1>
-                <p class="card-desc">${targetApi.desc}</p>
-                <div class="endpoint-box">
-                    <div class="endpoint-header">
-                        <span class="method">${targetApi.method}</span>
-                        <span class="domain">接口地址</span>
-                    </div>
-                    <div class="endpoint-path">${targetApi.endpoint}</div>
-                </div>
-                ${paramsTable}
-                <h3 class="section-title" style="margin-top: 24px;">请求示例</h3>
-                <div class="code-block"><pre>${targetApi.example || '暂无示例'}</pre></div>
-                <button class="try-btn" style="margin-top: 20px;" onclick="openTestDialog()">▶ 试一试</button>
-            `;
-        }
-
-        function openTestDialog() {
-            const dialog = document.createElement('div');
-            dialog.className = 'test-dialog-overlay';
-            dialog.innerHTML = `
-                <div class="test-dialog">
-                    <div class="test-dialog-header">
-                        <span>测试调用 - ${targetApi.name}</span>
-                        <span class="test-close" onclick="this.closest('.test-dialog-overlay').remove()">✕</span>
-                    </div>
-                    <div class="test-dialog-body">
-                        <div class="test-input-group">
-                            <label>请求参数（JSON 格式）</label>
-                            <textarea id="testInput">${targetApi.example || '{}'}</textarea>
-                        </div>
-                        <button class="try-btn" onclick="sendTestRequest()">发送请求</button>
-                        <div class="test-result" id="testResult" style="display:none;">
-                            <label>返回结果</label>
-                            <pre id="testResultContent"></pre>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(dialog);
-            requestAnimationFrame(() => dialog.classList.add('show'));
-        }
-
-        async function sendTestRequest() {
-            const resultBox = document.getElementById('testResult');
-            const resultContent = document.getElementById('testResultContent');
-            const rawInput = document.getElementById('testInput').value;
-            resultBox.style.display = 'block';
-            resultContent.textContent = '⏳ 正在请求...';
-
-            try {
-                const input = JSON.parse(rawInput);
-                // 自动把接口路径 /api/v1/xxx 转成 /api/uapi/xxx
-                const apiPath = targetApi.endpoint.replace('/api/v1', '');
-                let url = `/api/uapi${apiPath}`;
-
-                let resp;
-                if (targetApi.method === 'GET') {
-                    const qs = new URLSearchParams(input).toString();
-                    resp = await fetch(`${url}?${qs}`);
-                } else {
-                    resp = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(input)
-                    });
-                }
-
-                const data = await resp.json();
-                resultContent.textContent = JSON.stringify(data, null, 2);
-                showToast('调用成功', 'success');
-            } catch (e) {
-                resultContent.textContent = '❌ 出错：' + e.message;
-                showToast('请求失败', 'error');
-            }
-        }
-    </script>
-    <script src="script.js"></script>
+    ${table}
+    <h3 class="section-title" style="margin-top:24px;">请求示例</h3>
+    <div class="code-block"><pre>${api.example || '暂无'}</pre></div>
+    <button class="try-btn" style="margin-top:20px;" onclick="openTest()">▶ 试一试</button>`;
+}
+function openTest() {
+  const d = document.createElement('div');
+  d.className = 'test-dialog-overlay';
+  d.innerHTML = `<div class="test-dialog"><div class="test-dialog-header"><span>测试调用 - ${api.name}</span><span class="test-close" onclick="this.closest('.test-dialog-overlay').remove()">✕</span></div><div class="test-dialog-body"><div class="test-input-group"><label>请求参数（JSON）</label><textarea id="testInput">${api.example||'{}'}</textarea></div><button class="try-btn" onclick="sendTest()">发送请求</button><div class="test-result" id="testResult" style="display:none;"><label>返回结果</label><pre id="testResultContent"></pre></div></div></div>`;
+  document.body.appendChild(d);
+  requestAnimationFrame(()=>d.classList.add('show'));
+}
+async function sendTest() {
+  const box = document.getElementById('testResult');
+  const out = document.getElementById('testResultContent');
+  box.style.display = 'block';
+  out.textContent = '⏳ 请求中...';
+  try {
+    const input = JSON.parse(document.getElementById('testInput').value);
+    const path = api.endpoint.replace('/api/v1','');
+    let url = `/api/uapi${path}`;
+    let resp;
+    if (api.method === 'GET') {
+      resp = await fetch(`${url}?${new URLSearchParams(input)}`);
+    } else {
+      resp = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(input) });
+    }
+    out.textContent = JSON.stringify(await resp.json(), null, 2);
+    showToast('调用成功','success');
+  } catch(e) {
+    out.textContent = '❌ ' + e.message;
+    showToast('请求失败','error');
+  }
+}
+</script>
 </body>
 </html>

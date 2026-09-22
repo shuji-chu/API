@@ -1,169 +1,35 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API 文档 - SAFW AI</title>
-<link rel="stylesheet" href="style.css">
-<link rel="icon" href="logo.jpg" type="image/jpeg">
-</head>
-<body>
-<nav class="navbar">
-<div class="nav-left"><a href="index.html" class="nav-brand"><img src="logo.jpg" class="nav-logo"><span class="nav-title">SAFW AI</span></a></div>
-<div class="nav-right">
-<svg class="nav-icon" onclick="openSearch()" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-<img src="logo.jpg" class="avatar" onclick="toggleProfileMenu(event)">
-<span class="icon">☰</span>
-</div>
-</nav>
+// ============================================================
+// 绘画类 + AI对话（追加到 allApis，不能覆盖）
+// ============================================================
 
-<div class="profile-menu" id="profileMenu">
-<div class="profile-header"><img src="logo.jpg" class="profile-avatar"><div><div class="profile-name">shujichu</div><div class="profile-status">已登录</div></div></div>
-<a href="dashboard.html" class="profile-item">🖥️ 控制台</a>
-<a href="pricing.html" class="profile-item">💰 价格</a>
-<div class="profile-item" onclick="toggleDarkMode()">🌙 切换深色模式</div>
-<div class="profile-item" onclick="copyMyId()">📋 复制我的 ID</div>
-<div class="profile-divider"></div>
-<div class="profile-item logout" onclick="logout()">🚪 退出登录</div>
-</div>
+allApis.draw = [
+  { id:'draw_1', name:'ModelScope 绘画', desc:'主力绘画，画质高，模型Tongyi-MAI/Z-Image-Turbo', price:0.05, method:'POST', endpoint:'/api/draw/modelscope',
+    params:[{name:'prompt',type:'string',required:true,desc:'绘画提示词'}],
+    responseParams:[{name:'url',type:'string',desc:'图片URL'}],
+    example:'{"prompt":"一只猫"}', response:'{"url":"https://..."}' },
 
-<main class="container" style="padding-top:10px;">
-<div class="card" id="doc-content"></div>
-<a href="javascript:history.back()" class="back-link" style="margin-top:20px;">← 返回列表</a>
-</main>
+  { id:'draw_2', name:'智谱绘画', desc:'智谱BigModel cogview-3-flash', price:0.05, method:'POST', endpoint:'/api/draw/zhipu',
+    params:[{name:'prompt',type:'string',required:true,desc:'绘画提示词'}],
+    responseParams:[{name:'url',type:'string',desc:'图片URL'}],
+    example:'{"prompt":"一只猫"}', response:'{"url":"https://..."}' },
 
-<script src="data.js"></script>
-<script src="data-draw.js"></script>
-<script src="script.js"></script>
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get('id');
-let api = null;
-for (const cat in allApis) {
-  const found = allApis[cat].find(a => a.id === id);
-  if (found) { api = found; break; }
-}
-const el = document.getElementById('doc-content');
+  { id:'draw_3', name:'智谱视频', desc:'智谱cogvideox-flash视频生成', price:0.10, method:'POST', endpoint:'/api/draw/zhipu-video',
+    params:[{name:'prompt',type:'string',required:true,desc:'视频提示词'}],
+    responseParams:[{name:'url',type:'string',desc:'视频URL'}],
+    example:'{"prompt":"一只猫在跑"}', response:'{"url":"https://..."}' },
 
-if (!api) {
-  el.innerHTML = '<h1 class="card-title">接口不存在</h1>';
-} else {
-  document.title = api.name + ' - API 文档';
+  { id:'draw_4', name:'Cloudflare 绘画', desc:'Cloudflare Workers AI flux-1-schnell', price:0.03, method:'POST', endpoint:'/api/draw/cf',
+    params:[{name:'prompt',type:'string',required:true,desc:'绘画提示词'}],
+    responseParams:[{name:'url',type:'string',desc:'图片URL'}],
+    example:'{"prompt":"一只猫"}', response:'{"url":"https://..."}' },
 
-  // 请求参数表格
-  let reqTable = '';
-  if (api.params && api.params.length) {
-    reqTable = `
-      <h3 class="section-title">请求参数</h3>
-      <div class="table-wrap">
-        <table class="param-table">
-          <thead><tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
-          <tbody>
-            ${api.params.map(p => `
-              <tr>
-                <td><code>${p.name}</code></td>
-                <td>${p.type}</td>
-                <td>${p.required ? '<span class="required">是</span>' : '否'}</td>
-                <td>${p.desc}</td>
-              </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>`;
-  } else {
-    reqTable = '<p class="card-desc" style="margin-bottom:0;">该接口无需请求参数，直接调用即可。</p>';
-  }
+  { id:'draw_5', name:'Agnes 绘画', desc:'Agnes AI agnes-image-2.1-flash', price:0.04, method:'POST', endpoint:'/api/draw/agnes',
+    params:[{name:'prompt',type:'string',required:true,desc:'绘画提示词'}],
+    responseParams:[{name:'url',type:'string',desc:'图片URL'}],
+    example:'{"prompt":"一只猫"}', response:'{"url":"https://..."}' },
 
-  // 响应参数表格
-  let resTable = '';
-  if (api.responseParams && api.responseParams.length) {
-    resTable = `
-      <h3 class="section-title" style="margin-top:24px;">响应参数</h3>
-      <div class="table-wrap">
-        <table class="param-table">
-          <thead><tr><th>字段名</th><th>类型</th><th>说明</th></tr></thead>
-          <tbody>
-            ${api.responseParams.map(p => `
-              <tr>
-                <td><code>${p.name}</code></td>
-                <td>${p.type}</td>
-                <td>${p.desc}</td>
-              </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>`;
-  }
-
-  const priceText = api.price !== undefined
-    ? (api.price === 0 ? '免费' : api.price + ' USDT / 次')
-    : '按量计费';
-
-  el.innerHTML = `
-    <div class="card-label">接口文档</div>
-    <h1 class="card-title">${api.name}</h1>
-
-    <div class="price-box">
-      <div class="price-label">调用价格</div>
-      <div class="price-value">${priceText}</div>
-      <div class="price-tip">按单次成功调用计费</div>
-    </div>
-
-    <h3 class="section-title">接口说明</h3>
-    <p class="card-desc" style="margin-bottom:20px;">${api.desc || '暂无说明'}</p>
-
-    <h3 class="section-title">如何调用</h3>
-    <div class="endpoint-box">
-      <div class="endpoint-header">
-        <span class="method">${api.method}</span>
-        <span class="domain">接口地址</span>
-      </div>
-      <div class="endpoint-path">${api.endpoint}</div>
-    </div>
-
-    ${reqTable}
-    ${resTable}
-
-    <h3 class="section-title" style="margin-top:24px;">请求示例</h3>
-    <div class="code-block"><pre>${api.example || '暂无示例'}</pre></div>
-
-    <h3 class="section-title" style="margin-top:24px;">返回示例</h3>
-    <div class="code-block"><pre>${api.response || '暂无返回示例'}</pre></div>
-
-    <button class="try-btn" style="margin-top:24px;" onclick="openTest()">▶ 试一试</button>
-  `;
-}
-
-function openTest() {
-  const d = document.createElement('div');
-  d.className = 'test-dialog-overlay';
-  d.innerHTML = `<div class="test-dialog"><div class="test-dialog-header"><span>测试调用 - ${api.name}</span><span class="test-close" onclick="this.closest('.test-dialog-overlay').remove()">✕</span></div><div class="test-dialog-body"><div class="test-input-group"><label>请求参数（JSON）</label><textarea id="testInput">${api.example||'{}'}</textarea></div><button class="try-btn" onclick="sendTest()">发送请求</button><div class="test-result" id="testResult" style="display:none;"><label>返回结果</label><pre id="testResultContent"></pre></div></div></div>`;
-  document.body.appendChild(d);
-  requestAnimationFrame(()=>d.classList.add('show'));
-}
-
-async function sendTest() {
-  const box = document.getElementById('testResult');
-  const out = document.getElementById('testResultContent');
-  box.style.display = 'block';
-  out.textContent = '⏳ 请求中...';
-  try {
-    const input = JSON.parse(document.getElementById('testInput').value);
-    let url = api.endpoint;
-    if (api.endpoint.startsWith('/api/v1/')) {
-      url = '/api/uapi' + api.endpoint.replace('/api/v1','');
-    }
-    let resp;
-    if (api.method === 'GET') {
-      resp = await fetch(`${url}?${new URLSearchParams(input)}`);
-    } else {
-      resp = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(input) });
-    }
-    out.textContent = JSON.stringify(await resp.json(), null, 2);
-    showToast('调用成功','success');
-  } catch(e) {
-    out.textContent = '❌ ' + e.message;
-    showToast('请求失败','error');
-  }
-}
-</script>
-</body>
-</html>
+  { id:'draw_6', name:'Agnes 改图', desc:'Agnes AI agnes-image-2.5-flash 改图', price:0.05, method:'POST', endpoint:'/api/draw/agnes-edit',
+    params:[{name:'prompt',type:'string',required:true,desc:'修改提示词'},{name:'image_url',type:'string',required:true,desc:'原图地址'}],
+    responseParams:[{name:'url',type:'string',desc:'新图URL'}],
+    example:'{"prompt":"改成蓝色","image_url":"https://example.com/cat.jpg"}', response:'{"url":"https://..."}' }
+];

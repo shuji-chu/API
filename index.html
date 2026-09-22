@@ -37,8 +37,8 @@
 <main class="container">
 <div class="card">
 <div class="card-label">API 列表</div>
-<h1 class="card-title">选择接口</h1>
-<p class="card-desc">所有接口均支持在线调试，点击卡片查看文档并直接调用。</p>
+<h1 class="card-title">全部接口</h1>
+<p class="card-desc">共 <span id="apiCount">0</span> 个接口，点击卡片查看文档并在线调用。</p>
 <div id="apiGrid" class="api-grid"></div>
 </div>
 </main>
@@ -57,15 +57,15 @@
 </div>
 
 <script src="data.js"></script>
+<script src="data-draw.js"></script>
 <script src="script.js"></script>
 <script>
-// 渲染所有接口卡片
 const grid = document.getElementById('apiGrid');
-let cards = '';
+let cards = '', count = 0;
 for (const cat in allApis) {
   allApis[cat].forEach(api => {
-    cards += `
-    <a href="doc.html?id=${api.id}" class="api-card">
+    count++;
+    cards += `<a href="doc.html?id=${api.id}" class="api-card">
       <div class="api-card-tag">${cat}</div>
       <div class="api-card-name">${api.name}</div>
       <div class="api-card-desc">${api.desc}</div>
@@ -74,6 +74,7 @@ for (const cat in allApis) {
   });
 }
 grid.innerHTML = cards || '<p style="color:#94a3b8;text-align:center;padding:30px;">暂无接口</p>';
+document.getElementById('apiCount').textContent = count;
 </script>
 </body>
 </html>

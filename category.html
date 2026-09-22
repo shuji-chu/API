@@ -17,15 +17,31 @@
         </div>
         <div class="nav-right">
             <span class="icon">🔍</span>
-            <img src="logo.jpg" alt="Avatar" class="avatar">
+            <img src="logo.jpg" alt="Avatar" class="avatar" onclick="toggleProfileMenu(event)">
             <span class="icon">☰</span>
         </div>
     </nav>
 
+    <div class="profile-menu" id="profileMenu">
+        <div class="profile-header">
+            <img src="logo.jpg" alt="Avatar" class="profile-avatar">
+            <div>
+                <div class="profile-name">shujichu</div>
+                <div class="profile-status">已登录</div>
+            </div>
+        </div>
+        <a href="dashboard.html" class="profile-item"><span>🖥️</span> 控制台</a>
+        <a href="pricing.html" class="profile-item"><span>💰</span> 价格</a>
+        <div class="profile-item" onclick="toggleDarkMode()"><span>🌙</span> 切换深色模式</div>
+        <div class="profile-item" onclick="copyMyId()"><span>📋</span> 复制我的 ID</div>
+        <div class="profile-divider"></div>
+        <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
+    </div>
+
     <div class="tabs">
-        <span class="tab active">API 列表</span>
-        <span class="tab">控制台</span>
-        <span class="tab">价格</span>
+        <a href="index.html" class="tab active">API 列表</a>
+        <a href="dashboard.html" class="tab">控制台</a>
+        <a href="pricing.html" class="tab">价格</a>
         <span class="tab">更新日志</span>
         <span class="tab">每日热搜</span>
     </div>
@@ -47,22 +63,18 @@
             service: { name: '服务类', desc: '实用工具服务' },
             free:    { name: '免费类', desc: '免费接口集合' }
         };
-
         const params = new URLSearchParams(window.location.search);
         const type = params.get('type') || 'sms';
         const info = categoryInfo[type] || categoryInfo.sms;
         const apis = allApis[type] || [];
-
         document.title = info.name + ' - SAFW AI';
         document.getElementById('category-label').textContent = info.name;
         document.getElementById('category-title').textContent = info.name + ' API';
         document.getElementById('category-desc').textContent = info.desc;
-
         const listEl = document.getElementById('api-list');
         if (apis.length === 0) {
             listEl.innerHTML = '<p style="color:#64748b; text-align:center; padding:20px;">暂无接口</p>';
         } else {
-            // 注意这里：点击后跳转到 doc.html，并带上接口的 id
             listEl.innerHTML = apis.map(api => `
                 <a href="doc.html?id=${api.id}" class="api-item" style="text-decoration:none; display:block;">
                     <div class="api-item-name">${api.name}</div>
@@ -72,5 +84,6 @@
             `).join('');
         }
     </script>
+    <script src="script.js"></script>
 </body>
 </html>

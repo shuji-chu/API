@@ -132,4 +132,76 @@ body {
 .feature-list { list-style: none; }
 .feature-list li { font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 10px; display: flex; gap: 8px; }
 .feature-list li::before { content: "●"; color: #2563eb; font-size: 10px; margin-top: 7px; }
-.feature-list li strong { color: #0f172a; }
+.feature-list li strong { color: #0f172a; }/* 文档页专用样式 */
+.section-title {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #0f172a;
+}
+
+/* 参数表格 */
+.table-wrap {
+    overflow-x: auto;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.param-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 100%;
+}
+
+.param-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.param-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+}
+
+.param-table tr:last-child td {
+    border-bottom: none;
+}
+
+.param-table code {
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.required {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* 代码示例块 */
+.code-block {
+    background: #1e1e2e;
+    border-radius: 12px;
+    padding: 16px;
+    overflow-x: auto;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.code-block pre {
+    margin: 0;
+    color: #e2e8f0;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+}

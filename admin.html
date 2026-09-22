@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>接口配置生成器 - SAFW AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left"><img src="logo.jpg" class="nav-logo"><span class="nav-title">SAFW AI</span></div>
+    </nav>
+    <main class="container">
+        <div class="card">
+            <div class="card-label">工具</div>
+            <h1 class="card-title">接口配置生成器</h1>
+            <p class="card-desc">填完表单，点“生成配置”，把生成的代码复制回 data.js 即可，不用写一行代码。</p>
+
+            <div class="form-group">
+                <label>接口名称</label>
+                <input type="text" id="f_name" placeholder="例如：IP查询">
+            </div>
+            <div class="form-group">
+                <label>接口描述</label>
+                <input type="text" id="f_desc" placeholder="例如：查询IP归属地">
+            </div>
+            <div class="form-group">
+                <label>请求方式</label>
+                <select id="f_method">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>接口路径</label>
+                <input type="text" id="f_endpoint" placeholder="例如：/api/v1/query/ip">
+            </div>
+            <div class="form-group">
+                <label>所属分类</label>
+                <select id="f_cat">
+                    <option value="sms">接码类</option>
+                    <option value="query">查询类</option>
+                    <option value="service">服务类</option>
+                    <option value="free">免费类</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>请求参数（JSON数组）</label>
+                <textarea id="f_params" placeholder='[{"name":"ip","type":"string","required":true,"desc":"IP地址"}]'></textarea>
+            </div>
+            <div class="form-group">
+                <label>请求示例</label>
+                <input type="text" id="f_example" placeholder='{"ip":"8.8.8.8"}'>
+            </div>
+
+            <button class="try-btn" onclick="generate()">生成配置</button>
+            <div class="code-block" style="margin-top:16px;"><pre id="output">生成结果会显示在这里</pre></div>
+            <button class="try-btn" style="margin-top:12px; background:#64748b;" onclick="copyText(document.getElementById('output').textContent)">复制生成的代码</button>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script>
+        function generate() {
+            const cat = document.getElementById('f_cat').value;
+            const name = document.getElementById('f_name').value;
+            const desc = document.getElementById('f_desc').value;
+            const method = document.getElementById('f_method').value;
+            const endpoint = document.getElementById('f_endpoint').value;
+            const paramsRaw = document.getElementById('f_params').value;
+            const example = document.getElementById('f_example').value;
+
+            let params = [];
+            try { params = JSON.parse(paramsRaw || '[]'); } catch(e) { alert('参数JSON格式不对！'); return; }
+
+            const id = cat + '_' + Date.now();
+            const obj = { id, name, desc, method, endpoint, params, example };
+            const code = `// 把下面这行加到 data.js 的 "${cat}" 数组里\n${JSON.stringify(obj, null, 2)},`;
+            document.getElementById('output').textContent = code;
+        }
+    </script>
+</body>
+</html>

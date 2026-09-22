@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>API 列表 - SAFW AI</title>
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="logo.jpg" type="image/jpeg">
 </head>
 <body>
 <nav class="navbar">
@@ -46,7 +47,6 @@
 
 <script src="data.js"></script>
 <script src="data-draw.js"></script>
-<script src="data-price.js"></script>
 <script>
 const categoryInfo = {
   query:   { name: '查询类', desc: '各类信息查询服务' },
@@ -69,7 +69,7 @@ if (apis.length === 0) {
 } else {
   listEl.innerHTML = apis.map(api => {
     const priceText = api.price !== undefined
-      ? (api.price === 0 ? '免费' : api.price + ' 积分/次')
+      ? (api.price === 0 ? '免费' : api.price + ' USDT/次')
       : '按量计费';
     return `
       <a href="doc.html?id=${api.id}" class="api-item" style="text-decoration:none; display:block;">

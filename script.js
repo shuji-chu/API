@@ -1,53 +1,90 @@
-// 模拟你的接口数据（以后这100个接口都放这里）
-const apiList = [
-    { id: 1, name: "AI 智能翻译", category: "AI", path: "/api/v1/ai/translate", method: "POST", desc: "高质量翻译服务..." },
-    { id: 2, name: "天气查询", category: "生活", path: "/api/v1/weather", method: "GET", desc: "全国天气预报..." },
-    { id: 3, name: "AI 绘画", category: "AI", path: "/api/v1/ai/draw", method: "POST", desc: "文生图模型..." }
-];
+// ==================== 全局交互系统 ====================
 
-// 切换视图函数
-function showPage(pageId) {
-    const mainArea = document.querySelector('.container');
-    // 如果点的是首页
-    if (pageId === 'home') {
-        mainArea.innerHTML = `
-            <div class="card">
-                <div class="card-label">API 列表</div>
-                <h1 class="card-title">所有接口</h1>
-                <div class="feature-list">
-                    ${apiList.map(api => `
-                        <li onclick="showPage('api-${api.id}')">
-                            <strong>${api.name}</strong> (${api.category})
-                        </li>
-                    `).join('')}
-                </div>
-            </div>
-        `;
+// 1. 高质感 Toast 提示（代替丑陋的 alert）
+function showToast(msg, type = 'info') {
+    // 移除已有的
+    const old = document.getElementById('globalToast');
+    if (old) old.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'globalToast';
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : '💡'}</span> ${msg}`;
+    document.body.appendChild(toast);
+
+    // 入场动画
+    requestAnimationFrame(() => toast.classList.add('show'));
+
+    // 2.5 秒后自动消失
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}
+
+// 2. 全局按钮点击震动/涟漪反馈
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.try-btn, .profile-item, .category-item, .tab');
+    if (btn) {
+        btn.style.transform = 'scale(0.96)';
+        setTimeout(() => btn.style.transform = '', 150);
+    }
+});
+
+// 3. 复制到剪贴板功能（带反馈）
+function copyText(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('已复制到剪贴板', 'success');
+        }).catch(() => {
+            fallbackCopy(text);
+        });
     } else {
-        // 如果点的是某个接口的详细页
-        const id = parseInt(pageId.split('-')[1]);
-        const api = apiList.find(a => a.id === id);
-        if (api) {
-            mainArea.innerHTML = `
-                <div class="card">
-                    <div class="card-label">${api.category}</div>
-                    <h1 class="card-title">${api.name}</h1>
-                    <p class="card-desc">${api.desc}</p>
-                    <div class="endpoint-box">
-                        <div class="endpoint-header">
-                            <span class="method">${api.method}</span>
-                        </div>
-                        <div class="endpoint-path">${api.path}</div>
-                        <button class="try-btn" onclick="alert('准备接后端！')">▶ 试一试</button>
-                    </div>
-                    <button class="try-btn" style="background:#64748b; margin-top:10px;" onclick="showPage('home')">← 返回列表</button>
-                </div>
-            `;
-        }
+        fallbackCopy(text);
     }
 }
 
-// 启动时显示首页
-document.addEventListener('DOMContentLoaded', () => {
-    showPage('home');
+function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+        document.execCommand('copy');
+        showToast('已复制到剪贴板', 'success');
+    } catch (err) {
+        showToast('复制失败，请手动选择', 'error');
+    }
+    document.body.removeChild(ta);
+}
+
+// 4. 个人中心下拉菜单
+function toggleProfileMenu(event) {
+    if (event) event.stopPropagation();
+    const menu = document.getElementById('profileMenu');
+    if (menu) menu.classList.toggle('show');
+}
+
+document.addEventListener('click', function() {
+    const menu = document.getElementById('profileMenu');
+    if (menu && menu.classList.contains('show')) {
+        menu.classList.remove('show');
+    }
+});
+
+// 5. 深色模式切换（带本地保存）
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDark ? '1' : '0');
+    showToast(isDark ? '已切换到深色模式' : '已切换到浅色模式', 'info');
+}
+
+// 页面加载时读取深色模式偏好
+document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('darkMode') === '1') {
+        document.body.classList.add('dark-mode');
+    }
 });

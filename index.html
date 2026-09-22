@@ -1,102 +1,79 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAFW AI - API 平台</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAFW AI - API 平台</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <img src="logo.jpg" alt="Logo" class="nav-logo">
-            <span class="nav-title">SAFW AI</span>
-        </div>
-        <div class="nav-right">
-            <svg class="nav-icon" onclick="openSearch()" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <img src="logo.jpg" alt="Avatar" class="avatar" onclick="toggleProfileMenu(event)">
-            <span class="icon">☰</span>
-        </div>
-    </nav>
+<nav class="navbar">
+<div class="nav-left"><img src="logo.jpg" class="nav-logo"><span class="nav-title">SAFW AI</span></div>
+<div class="nav-right">
+<svg class="nav-icon" onclick="openSearch()" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<img src="logo.jpg" class="avatar" onclick="toggleProfileMenu(event)">
+<span class="icon">☰</span>
+</div>
+</nav>
 
-    <div class="profile-menu" id="profileMenu">
-        <div class="profile-header">
-            <img src="logo.jpg" alt="Avatar" class="profile-avatar">
-            <div>
-                <div class="profile-name">shujichu</div>
-                <div class="profile-status">已登录</div>
-            </div>
-        </div>
-        <a href="dashboard.html" class="profile-item"><span>🖥️</span> 控制台</a>
-        <a href="pricing.html" class="profile-item"><span>💰</span> 价格</a>
-        <div class="profile-item" onclick="toggleDarkMode()"><span>🌙</span> 切换深色模式</div>
-        <div class="profile-item" onclick="copyMyId()"><span>📋</span> 复制我的 ID</div>
-        <div class="profile-divider"></div>
-        <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
-    </div>
+<div class="profile-menu" id="profileMenu">
+<div class="profile-header"><img src="logo.jpg" class="profile-avatar"><div><div class="profile-name">shujichu</div><div class="profile-status">已登录</div></div></div>
+<a href="dashboard.html" class="profile-item">🖥️ 控制台</a>
+<a href="pricing.html" class="profile-item">💰 价格</a>
+<div class="profile-item" onclick="toggleDarkMode()">🌙 切换深色模式</div>
+<div class="profile-item" onclick="copyMyId()">📋 复制我的 ID</div>
+<div class="profile-divider"></div>
+<div class="profile-item logout" onclick="logout()">🚪 退出登录</div>
+</div>
 
-    <div class="tabs">
-        <a href="index.html" class="tab active">API 列表</a>
-        <a href="dashboard.html" class="tab">控制台</a>
-        <a href="pricing.html" class="tab">价格</a>
-        <a href="log.html" class="tab">更新日志</a>
-        <a href="hot.html" class="tab">每日热搜</a>
-    </div>
+<div class="tabs">
+<a href="index.html" class="tab active">API 列表</a>
+<a href="dashboard.html" class="tab">控制台</a>
+<a href="pricing.html" class="tab">价格</a>
+<a href="log.html" class="tab">更新日志</a>
+<a href="hot.html" class="tab">每日热搜</a>
+</div>
 
-    <main class="container">
-        <div class="card">
-            <div class="card-label">API 分类</div>
-            <h1 class="card-title">选择服务</h1>
-            <p class="card-desc">我们提供高可用、低延迟的 API 接口服务。请选择下方的分类进入。</p>
-            <div class="category-grid">
-                <a href="category.html?type=sms" class="category-item">
-                    <div class="category-icon">📱</div>
-                    <div class="category-name">接码类</div>
-                    <div class="category-desc">短信验证码接收</div>
-                </a>
-                <a href="category.html?type=query" class="category-item">
-                    <div class="category-icon">🔍</div>
-                    <div class="category-name">查询类</div>
-                    <div class="category-desc">各类信息查询</div>
-                </a>
-                <a href="category.html?type=service" class="category-item">
-                    <div class="category-icon">⚙️</div>
-                    <div class="category-name">服务类</div>
-                    <div class="category-desc">实用工具服务</div>
-                </a>
-                <a href="category.html?type=free" class="category-item">
-                    <div class="category-icon">🎁</div>
-                    <div class="category-name">免费类</div>
-                    <div class="category-desc">免费接口集合</div>
-                </a>
-            </div>
-        </div>
-    </main>
+<main class="container">
+<div class="card">
+<div class="card-label">API 列表</div>
+<h1 class="card-title">选择接口</h1>
+<p class="card-desc">所有接口均支持在线调试，点击卡片查看文档并直接调用。</p>
+<div id="apiGrid" class="api-grid"></div>
+</div>
+</main>
 
-    <footer class="footer">
-        <div class="footer-logo">
-            <img src="logo.jpg" alt="SAFW AI" class="footer-logo-img">
-            <span>SAFW AI</span>
-        </div>
-        <div class="footer-links">
-            <a href="log.html">更新日志</a>
-            <a href="pricing.html">价格</a>
-            <a href="#">服务协议</a>
-            <a href="#">隐私政策</a>
-        </div>
-        <div class="footer-copyright">
-            © 2026 SAFW AI. All rights reserved.
-        </div>
-    </footer>
+<footer class="footer">
+<div class="footer-logo"><img src="logo.jpg" class="footer-logo-img"><span>SAFW AI</span></div>
+<div class="footer-links"><a href="log.html">更新日志</a><a href="pricing.html">价格</a><a href="#">服务协议</a><a href="#">隐私政策</a></div>
+<div class="footer-copyright">© 2026 SAFW AI. All rights reserved.</div>
+</footer>
 
-    <div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
-        <div class="search-box" onclick="event.stopPropagation()">
-            <input type="text" placeholder="搜索接口..." id="searchInput" oninput="doSearch()">
-            <div class="search-results" id="searchResults"></div>
-        </div>
-    </div>
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+<div class="search-box" onclick="event.stopPropagation()">
+<input type="text" placeholder="搜索接口..." id="searchInput" oninput="doSearch()">
+<div class="search-results" id="searchResults"></div>
+</div>
+</div>
 
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script>
+// 渲染所有接口卡片
+const grid = document.getElementById('apiGrid');
+let cards = '';
+for (const cat in allApis) {
+  allApis[cat].forEach(api => {
+    cards += `
+    <a href="doc.html?id=${api.id}" class="api-card">
+      <div class="api-card-tag">${cat}</div>
+      <div class="api-card-name">${api.name}</div>
+      <div class="api-card-desc">${api.desc}</div>
+      <div class="api-card-path">${api.endpoint}</div>
+    </a>`;
+  });
+}
+grid.innerHTML = cards || '<p style="color:#94a3b8;text-align:center;padding:30px;">暂无接口</p>';
+</script>
 </body>
 </html>

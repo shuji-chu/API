@@ -1,19 +1,59 @@
 const allApis = {
-  sms: [
-    { id:'sms_1', name:'国内短信接码', desc:'接收国内短信验证码', method:'POST', endpoint:'/api/v1/sms/cn', params:[{name:'phone',type:'string',required:true,desc:'手机号'}], example:'{"phone":"13800138000"}' },
-    { id:'sms_2', name:'国际短信接码', desc:'接收国际短信验证码', method:'POST', endpoint:'/api/v1/sms/global', params:[{name:'country',type:'string',required:true,desc:'国家代码'}], example:'{"country":"US"}' }
-  ],
   query: [
-    { id:'query_1', name:'IP查询', desc:'查询IP归属地', method:'GET', endpoint:'/api/v1/query/ip', params:[{name:'ip',type:'string',required:true,desc:'IP地址'}], example:'{"ip":"8.8.8.8"}' },
-    { id:'query_2', name:'天气查询', desc:'查询城市天气', method:'GET', endpoint:'/api/v1/query/weather', params:[{name:'city',type:'string',required:true,desc:'城市名'}], example:'{"city":"北京"}' },
-    { id:'query_3', name:'手机归属地', desc:'查询手机号归属地', method:'GET', endpoint:'/api/v1/query/phone', params:[{name:'phone',type:'string',required:true,desc:'手机号'}], example:'{"phone":"13800138000"}' }
+    { id:'nz_8', name:'手机号二要素认证', desc:'运营商姓名+手机号校验', method:'POST', endpoint:'/api/nz/8', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'phone',type:'string',required:true,desc:'手机号'}], example:'{"name":"张三","phone":"13800138000"}' },
+    { id:'nz_20', name:'全网手机号三要素验证', desc:'手机号+姓名+证件号实名验证', method:'POST', endpoint:'/api/nz/20', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'phone',type:'string',required:true,desc:'手机号'},{name:'idcard',type:'string',required:true,desc:'身份证号'}], example:'{"name":"张三","phone":"13800138000","idcard":"110101199001011234"}' },
+    { id:'nz_10', name:'IP归属地位置查询', desc:'IP定位解析', method:'POST', endpoint:'/api/nz/10', params:[{name:'ip',type:'string',required:true,desc:'IP地址'}], example:'{"ip":"27.38.248.215"}' },
+    { id:'nz_14', name:'身份证号码归属地查询', desc:'身份证归属地查询', method:'POST', endpoint:'/api/nz/14', params:[{name:'idcard',type:'string',required:true,desc:'身份证号'}], example:'{"idcard":"110101199001011234"}' },
+    { id:'nz_44', name:'限高消费人员查询', desc:'查询是否存在限制高消费', method:'POST', endpoint:'/api/nz/44', params:[{name:'name',type:'string',required:true,desc:'姓名或公司名'},{name:'idcard',type:'string',required:false,desc:'证件号或企业统代'}], example:'{"name":"张三"}' },
+    { id:'nz_45', name:'失信被执行人员黑名单', desc:'查询失信被执行人名单', method:'POST', endpoint:'/api/nz/45', params:[{name:'name',type:'string',required:true,desc:'姓名或公司名'},{name:'idcard',type:'string',required:false,desc:'证件号或企业统代'}], example:'{"name":"张三"}' },
+    { id:'nz_40', name:'不良记录信息检验V2', desc:'员工不良行为检验', method:'POST', endpoint:'/api/nz/40', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'idcard',type:'string',required:true,desc:'身份证号'}], example:'{"name":"张三","idcard":"110101199001011234"}' },
+    { id:'nz_39', name:'人车实名检验-ETC', desc:'人车ETC关系检验', method:'POST', endpoint:'/api/nz/39', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'chepai',type:'string',required:true,desc:'车牌号'}], example:'{"name":"张三","chepai":"京A12345"}' },
+    { id:'nz_31', name:'人车实名检验', desc:'人车关系核验', method:'POST', endpoint:'/api/nz/31', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'chepai',type:'string',required:true,desc:'车牌号或VIN'}], example:'{"name":"张三","chepai":"京A12345"}' },
+    { id:'nz_41', name:'人车实名检验V2', desc:'人车关系核验V2', method:'POST', endpoint:'/api/nz/41', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'chepai',type:'string',required:true,desc:'车牌号'}], example:'{"name":"张三","chepai":"京A12345"}' },
+    { id:'nz_34', name:'车辆上险信息查询', desc:'查询交强险投保日期', method:'POST', endpoint:'/api/nz/34', params:[{name:'value',type:'string',required:true,desc:'车牌号或VIN'}], example:'{"value":"京A12345"}' },
+    { id:'nz_29', name:'车辆过户次数查询', desc:'查询车辆过户次数', method:'POST', endpoint:'/api/nz/29', params:[{name:'value',type:'string',required:true,desc:'车牌号或VIN'}], example:'{"value":"京A12345"}' },
+    { id:'nz_61', name:'快递物流查询', desc:'实时物流轨迹跟踪', method:'POST', endpoint:'/api/nz/61', params:[{name:'number',type:'string',required:true,desc:'运单编号'},{name:'sort',type:'string',required:false,desc:'排序 asc/desc'}], example:'{"number":"SF1234567890"}' },
+    { id:'nz_36', name:'主办单位+ICP号备案查询', desc:'实时查询备案信息', method:'POST', endpoint:'/api/nz/36', params:[{name:'name',type:'string',required:true,desc:'主办单位或ICP号'},{name:'page',type:'string',required:false,desc:'页数'}], example:'{"name":"某某公司"}' },
+    { id:'nz_49', name:'实时查询百度收录量', desc:'根据域名返回收录量', method:'POST', endpoint:'/api/nz/49', params:[{name:'domain',type:'string',required:true,desc:'域名'}], example:'{"domain":"example.com"}' },
+    { id:'nz_50', name:'百度移动权重查询', desc:'返回移动权重、流量、关键词数', method:'POST', endpoint:'/api/nz/50', params:[{name:'domain',type:'string',required:true,desc:'域名'}], example:'{"domain":"example.com"}' },
+    { id:'nz_51', name:'企业名称模糊查询', desc:'模糊查询企业工商信息', method:'POST', endpoint:'/api/nz/51', params:[{name:'page',type:'string',required:false,desc:'页码'}], example:'{"page":"1"}' },
+    { id:'nz_52', name:'企业工商信息模糊查询', desc:'智能多维度匹配工商信息', method:'POST', endpoint:'/api/nz/52', params:[{name:'page',type:'string',required:false,desc:'页码'}], example:'{"page":"1"}' },
+    { id:'nz_1',  name:'ICP备案实时查询', desc:'根据域名返回备案信息', method:'POST', endpoint:'/api/nz/1', params:[{name:'domain',type:'string',required:true,desc:'域名'}], example:'{"domain":"qq.com"}' },
+    { id:'nz_16', name:'域名whois信息查询', desc:'域名注册信息查询', method:'POST', endpoint:'/api/nz/16', params:[{name:'domain',type:'string',required:true,desc:'域名'}], example:'{"domain":"qq.cn"}' },
+    { id:'nz_17', name:'网站标题TDK查询', desc:'网站标题描述关键词查询', method:'POST', endpoint:'/api/nz/17', params:[{name:'url',type:'string',required:true,desc:'网址'}], example:'{"url":"https://example.com"}' },
+    { id:'nz_13', name:'微信域名拦截查询', desc:'微信域名拦截状态', method:'POST', endpoint:'/api/nz/13', params:[{name:'url',type:'string',required:true,desc:'域名或网址'}], example:'{"url":"example.com"}' },
+    { id:'nz_12', name:'QQ域名拦截查询', desc:'QQ域名拦截状态', method:'POST', endpoint:'/api/nz/12', params:[{name:'url',type:'string',required:true,desc:'域名或网址'}], example:'{"url":"example.com"}' },
+    { id:'nz_5',  name:'手机话费余额查询', desc:'话费余额综合查询', method:'POST', endpoint:'/api/nz/5', params:[{name:'phone',type:'string',required:true,desc:'手机号'}], example:'{"phone":"13800138000"}' },
+    { id:'nz_15', name:'手机号码归属地查询', desc:'号码归属地查询', method:'POST', endpoint:'/api/nz/15', params:[{name:'phone',type:'string',required:true,desc:'手机号码'}], example:'{"phone":"13800138000"}' },
+    { id:'nz_22', name:'车牌号码查归属地区', desc:'车牌号归属地查询', method:'POST', endpoint:'/api/nz/22', params:[{name:'chepai',type:'string',required:true,desc:'车牌号码'}], example:'{"chepai":"川A"}' },
+    { id:'nz_66', name:'人脸实名认证', desc:'公安库人脸比对', method:'POST', endpoint:'/api/nz/66', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'idcard',type:'string',required:true,desc:'身份证号'},{name:'file_url',type:'string',required:true,desc:'人脸照片地址'}], example:'{"name":"张三","idcard":"110101199001011234","file_url":"https://example.com/face.jpg"}' },
+    { id:'nz_60', name:'企业任职记录', desc:'查询名下企业及任职经历', method:'POST', endpoint:'/api/nz/60', params:[{name:'idcard',type:'string',required:true,desc:'身份证号'},{name:'name',type:'string',required:false,desc:'姓名'}], example:'{"idcard":"110101199001011234"}' },
+    { id:'nz_62', name:'司法综合数据查询', desc:'法院司法数据一站式检索', method:'POST', endpoint:'/api/nz/62', params:[{name:'name',type:'string',required:false,desc:'姓名或企业名称'},{name:'idcard',type:'string',required:false,desc:'证件号或统一社会信用代码'}], example:'{"name":"张三"}' },
+    { id:'nz_53', name:'企业工商信息标准版', desc:'精准查询企业工商信息', method:'POST', endpoint:'/api/nz/53', params:[{name:'name',type:'string',required:true,desc:'公司名全称、注册号、信用代码'}], example:'{"name":"某某有限公司"}' },
+    { id:'nz_23', name:'银行卡归属地查询', desc:'银行卡解析', method:'POST', endpoint:'/api/nz/23', params:[{name:'cardno',type:'string',required:true,desc:'银行卡号'}], example:'{"cardno":"6217000010000000000"}' },
+    { id:'nz_37', name:'手机号使用时长查询', desc:'手机号在网时长查询', method:'POST', endpoint:'/api/nz/37', params:[{name:'phone',type:'string',required:true,desc:'手机号'}], example:'{"phone":"13800138000"}' },
+    { id:'nz_11', name:'vin车架号解析车辆信息', desc:'VIN码在线解析', method:'POST', endpoint:'/api/nz/11', params:[{name:'vin',type:'string',required:true,desc:'VIN车架号'}], example:'{"vin":"WP0AB2978PL130045"}' },
+    { id:'nz_2',  name:'车牌号查车五项信息+使用性质', desc:'车牌号查询车五项信息', method:'POST', endpoint:'/api/nz/2', params:[{name:'chepai',type:'string',required:true,desc:'车牌号'}], example:'{"chepai":"京A12345"}' },
+    { id:'nz_7',  name:'车牌解析车辆信息', desc:'车牌解析车辆多项信息', method:'POST', endpoint:'/api/nz/7', params:[{name:'chepai',type:'string',required:true,desc:'车牌号'}], example:'{"chepai":"京A12345"}' },
+    { id:'nz_21', name:'银行卡二三四要素检验', desc:'银行卡实名验证', method:'POST', endpoint:'/api/nz/21', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'acct_no',type:'string',required:true,desc:'银行卡号'},{name:'idcard',type:'string',required:false,desc:'身份证号'},{name:'phone',type:'string',required:false,desc:'手机号码'}], example:'{"name":"张三","acct_no":"6217000010000000000"}' },
+    { id:'nz_42', name:'名下ETC车辆查询', desc:'根据证件号码查询名下ETC车辆', method:'POST', endpoint:'/api/nz/42', params:[{name:'value',type:'string',required:true,desc:'身份证号'},{name:'name',type:'string',required:false,desc:'姓名'}], example:'{"value":"110101199001011234"}' },
+    { id:'nz_38', name:'婚姻状态', desc:'查询个人婚姻状态及登记日期', method:'POST', endpoint:'/api/nz/38', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'idcard',type:'string',required:true,desc:'身份证号'}], example:'{"name":"张三","idcard":"110101199001011234"}' },
+    { id:'nz_4',  name:'身份证实名检验', desc:'身份证二要素核验', method:'POST', endpoint:'/api/nz/4', params:[{name:'name',type:'string',required:true,desc:'姓名'},{name:'idcard',type:'string',required:true,desc:'身份证号'}], example:'{"name":"张三","idcard":"110101199001011234"}' }
   ],
   service: [
-    { id:'service_1', name:'短链接生成', desc:'生成短链接', method:'POST', endpoint:'/api/v1/service/shorturl', params:[{name:'url',type:'string',required:true,desc:'原始链接'}], example:'{"url":"https://example.com"}' },
-    { id:'service_2', name:'二维码生成', desc:'生成二维码图片', method:'POST', endpoint:'/api/v1/service/qrcode', params:[{name:'text',type:'string',required:true,desc:'内容'}], example:'{"text":"https://example.com"}' }
+    { id:'nz_56', name:'实时汇率转换', desc:'实时人民币汇率转换', method:'POST', endpoint:'/api/nz/56', params:[{name:'from_Code',type:'string',required:true,desc:'源货币编码'},{name:'money',type:'string',required:true,desc:'源货币金额'},{name:'to_Code',type:'string',required:false,desc:'目标货币编码'}], example:'{"from_Code":"USD","money":"100"}' },
+    { id:'nz_58', name:'彩票开奖查询', desc:'查询各类彩票中奖情况', method:'POST', endpoint:'/api/nz/58', params:[{name:'type',type:'string',required:true,desc:'彩票种类编码'},{name:'qihao',type:'string',required:false,desc:'彩票期号'}], example:'{"type":"ssq"}' },
+    { id:'nz_33', name:'二维码图生成', desc:'生成二维码图片', method:'POST', endpoint:'/api/nz/33', params:[{name:'url',type:'string',required:true,desc:'链接或文字'}], example:'{"url":"https://example.com"}' },
+    { id:'nz_43', name:'DeepSeek-AI在线对话', desc:'DeepSeek在线聊天', method:'POST', endpoint:'/api/nz/43', params:[{name:'text',type:'string',required:true,desc:'对话内容'}], example:'{"text":"你好"}' },
+    { id:'nz_46', name:'代理http请求', desc:'爬虫代理请求', method:'POST', endpoint:'/api/nz/46', params:[{name:'url',type:'string',required:true,desc:'网址'},{name:'ip',type:'string',required:false,desc:'模拟IP'},{name:'ua',type:'string',required:false,desc:'模拟UA'},{name:'refer',type:'string',required:false,desc:'来源地址'},{name:'cookie',type:'string',required:false,desc:'cookie'},{name:'header',type:'string',required:false,desc:'模拟头部'},{name:'get_cookie',type:'string',required:false,desc:'返回全部信息'}], example:'{"url":"https://example.com"}' },
+    { id:'nz_3',  name:'短视频祛水印', desc:'各类短视频(图集)水印祛除解析', method:'POST', endpoint:'/api/nz/3', params:[{name:'url',type:'string',required:true,desc:'作品链接'}], example:'{"url":"https://v.douyin.com/xxxx/"}' },
+    { id:'nz_55', name:'舔狗语录', desc:'随机一言-舔狗语录', method:'POST', endpoint:'/api/nz/55', params:[], example:'{}' },
+    { id:'nz_19', name:'二维码内容解析', desc:'二维码内容解析', method:'POST', endpoint:'/api/nz/19', params:[{name:'url',type:'string',required:true,desc:'jpg或png二维码链接'}], example:'{"url":"https://example.com/qr.png"}' },
+    { id:'nz_18', name:'随机一言', desc:'随机一段句子', method:'POST', endpoint:'/api/nz/18', params:[], example:'{}' },
+    { id:'nz_9',  name:'高清风景壁纸', desc:'每日不重复高清壁纸', method:'POST', endpoint:'/api/nz/9', params:[], example:'{}' },
+    { id:'nz_54', name:'邮件代发送', desc:'代发邮件API', method:'POST', endpoint:'/api/nz/54', params:[{name:'mail',type:'string',required:true,desc:'收信邮箱'},{name:'title',type:'string',required:true,desc:'邮件标题'},{name:'text',type:'string',required:true,desc:'邮件内容'},{name:'lang',type:'string',required:false,desc:'语言，例如 zh'}], example:'{"mail":"test@test.com","title":"测试","text":"内容"}' }
   ],
-  free: [
-    { id:'free_1', name:'免费翻译', desc:'免费翻译接口', method:'POST', endpoint:'/api/v1/free/translate', params:[{name:'text',type:'string',required:true,desc:'文本'}], example:'{"text":"你好"}' },
-    { id:'free_2', name:'免费热搜', desc:'获取全网热搜', method:'GET', endpoint:'/api/v1/free/hot', params:[], example:'{}' }
-  ]
+  draw: [],
+  free: [],
+  sms: []
 };

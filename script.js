@@ -55,4 +55,37 @@ document.addEventListener('click', function(e) {
 
 // 个人菜单回调
 function copyMyId() { copyText('10001'); }
-function logout() { showToast('需接入后端才能真退出', 'info'); }
+function logout() { showToast('需接入后端才能真退出', 'info'); }// 搜索弹窗
+function openSearch() {
+    document.getElementById('searchOverlay').classList.add('show');
+    document.getElementById('searchInput').focus();
+}
+function closeSearch(e) {
+    if (e.target.id === 'searchOverlay') {
+        document.getElementById('searchOverlay').classList.remove('show');
+    }
+}
+function doSearch() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const resultsEl = document.getElementById('searchResults');
+    if (input.length === 0) { resultsEl.innerHTML = ''; return; }
+    
+    let results = [];
+    for (const category in allApis) {
+        allApis[category].forEach(api => {
+            if (api.name.toLowerCase().includes(input) || api.desc.toLowerCase().includes(input)) {
+                results.push(api);
+            }
+        });
+    }
+    
+    if (results.length === 0) {
+        resultsEl.innerHTML = '<div class="search-item">没有找到相关接口</div>';
+    } else {
+        resultsEl.innerHTML = results.map(api => `
+            <div class="search-item" onclick="window.location.href='doc.html?id=${api.id}'">
+                <strong>${api.name}</strong> - ${api.desc}
+            </div>
+        `).join('');
+    }
+}

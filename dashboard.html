@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>价格 - SAFW AI</title>
+    <title>控制台 - SAFW AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,7 +21,6 @@
         </div>
     </nav>
 
-    <!-- 个人中心下拉菜单（这里也需要一份，为了保持多页面一致性） -->
     <div class="profile-menu" id="profileMenu">
         <div class="profile-header">
             <img src="logo.jpg" alt="Avatar" class="profile-avatar">
@@ -33,62 +32,42 @@
         <a href="dashboard.html" class="profile-item"><span>🖥️</span> 控制台</a>
         <a href="pricing.html" class="profile-item"><span>💰</span> 价格</a>
         <div class="profile-item" onclick="toggleDarkMode()"><span>🌙</span> 切换深色模式</div>
-        <div class="profile-item" onclick="alert('你的ID: 10001')"><span>📋</span> 复制我的 ID</div>
+        <div class="profile-item" onclick="copyMyId()"><span>📋</span> 复制我的 ID</div>
         <div class="profile-divider"></div>
-        <div class="profile-item logout" onclick="alert('需接入后端才能真退出')"><span>🚪</span> 退出登录</div>
+        <div class="profile-item logout" onclick="logout()"><span>🚪</span> 退出登录</div>
     </div>
 
     <div class="tabs">
-        <a href="index.html" class="tab" style="text-decoration:none;">API 列表</a>
-        <a href="dashboard.html" class="tab" style="text-decoration:none;">控制台</a>
-        <a href="pricing.html" class="tab active" style="text-decoration:none;">价格</a>
+        <a href="index.html" class="tab">API 列表</a>
+        <a href="dashboard.html" class="tab active">控制台</a>
+        <a href="pricing.html" class="tab">价格</a>
         <span class="tab">更新日志</span>
         <span class="tab">每日热搜</span>
     </div>
 
     <main class="container">
         <div class="card">
-            <div class="card-label">价格方案</div>
-            <h1 class="card-title">按量付费，透明公开</h1>
-            <p class="card-desc">所有接口均按调用次数计费，无最低消费，充值即用。</p>
-            
-            <div class="pricing-grid">
-                <div class="pricing-item">
-                    <div class="pricing-name">基础版</div>
-                    <div class="pricing-price">¥0.01 <span class="pricing-unit">/次</span></div>
-                    <ul class="pricing-features">
-                        <li>基础接口调用</li>
-                        <li>标准响应速度</li>
-                        <li>社区支持</li>
-                    </ul>
-                    <button class="try-btn" style="margin-top: 20px;" onclick="alert('请先接入后端支付系统')">立即充值</button>
+            <div class="card-label">控制台</div>
+            <h1 class="card-title">账户概览</h1>
+            <p class="card-desc">查看你的账户余额、API 调用情况。</p>
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <div class="stat-label">当前余额</div>
+                    <div class="stat-value">¥ 0.00</div>
+                    <a href="pricing.html" class="stat-link">去充值 →</a>
                 </div>
-                
-                <div class="pricing-item featured">
-                    <div class="pricing-badge">推荐</div>
-                    <div class="pricing-name">专业版</div>
-                    <div class="pricing-price">¥0.005 <span class="pricing-unit">/次</span></div>
-                    <ul class="pricing-features">
-                        <li>全部高级接口</li>
-                        <li>更快的响应速度</li>
-                        <li>专属技术群</li>
-                    </ul>
-                    <button class="try-btn" style="margin-top: 20px;" onclick="alert('请先接入后端支付系统')">立即充值</button>
+                <div class="stat-box">
+                    <div class="stat-label">今日调用</div>
+                    <div class="stat-value">0 次</div>
                 </div>
+            </div>
+            <h3 class="section-title" style="margin-top: 24px;">我的 API 密钥</h3>
+            <div class="endpoint-box" style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="endpoint-path" style="margin:0;">sk-xxxxxxxxxxxxxxxx</div>
+                <button class="try-btn" style="width:auto; padding:8px 16px; font-size:14px;" onclick="copyText('sk-xxxxxxxxxxxxxxxx')">复制</button>
             </div>
         </div>
     </main>
-
-    <script>
-        function toggleProfileMenu(event) {
-            event.stopPropagation();
-            document.getElementById('profileMenu').classList.toggle('show');
-        }
-        document.addEventListener('click', function() {
-            const menu = document.getElementById('profileMenu');
-            if (menu.classList.contains('show')) menu.classList.remove('show');
-        });
-        function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
